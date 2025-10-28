@@ -35,8 +35,11 @@ services:
       - ai-workshop
     environment:
       - STORAGE_DIR=/app/server/storage
-      - OLLAMA_API_BASE_URL=http://ollama:11434
+      - OLLAMA_BASE_PATH=http://ollama:11434
+      - OLLAMA_MODEL_PREF=qwen3:1.7b
+      - OLLAMA_MODEL_TOKEN_LIMIT=30000
       - LLM_PROVIDER=ollama
+      - VECTOR_DB=lancedb
     depends_on:
       - ollama
     cap_add:
