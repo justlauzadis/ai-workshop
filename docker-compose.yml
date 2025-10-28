@@ -1,0 +1,84 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: always
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ai-workshop
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_DEBUG=2
+      - OLLAMA_CONTEXT_LENGTH=32000
+      - OLLAMA_NUM_PARALLEL=4
+    deploy:
+      resources:
+        limits:
+          cpus: "8"
+          memory: 30g
+    memswap_limit: 32g
+    cap_add:
+      - SYS_NICE
+    ulimits:
+      memlock: -1
+
+  anythingllm:
+    image: mintplexlabs/anythingllm:latest
+    container_name: anythingllm
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - ai-workshop
+    environment:
+      - STORAGE_DIR=/app/server/storage
+      - OLLAMA_API_BASE_URL=http://ollama:11434
+      - LLM_PROVIDER=ollama
+    depends_on:
+      - ollama
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - anythingllm_storage:/app/server/storage
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: openwebui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    networks:
+      - ai-workshop
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_AUTH=false
+    depends_on:
+      - ollama
+    volumes:
+      - openwebui_data:/app/backend/data
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    networks:
+      - ai-workshop
+    environment:
+      - GENERIC_TIMEZONE=UTC
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+networks:
+  ai-workshop:
+    driver: bridge
+
+volumes:
+  ollama_data:
+  anythingllm_storage:
+  openwebui_data:
+  n8n_data:
