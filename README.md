@@ -14,6 +14,7 @@
     - Download some models to `ollama` (or at least the following 2 models)
         - Run `docker exec -it ollama ollama run gemma3:1b` (after running the command you should be able to chat via command line)
         - Run `docker exec -it ollama ollama run qwen3:1.7b` (as this one is a bit smarter than gemma3:1b)
+            - In case of `tls: failed to verify certificate: x509: certificate signed by unknown authority` - enable VPN.
         - You can download more models as well. Check available LLMs here: https://ollama.com/library
         - Recommended small (~2GB) LLMs (as of November, 2025): gemma3, qwen3, phi4-mini-reasoning, granite4.
         - After installation, you can check if the model is available via API - http://localhost:11434/api/tags (should contain info about model within JSON body).
