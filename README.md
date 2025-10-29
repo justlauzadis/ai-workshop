@@ -45,7 +45,7 @@
         - Open <a href="http://localhost:5678/" target="_blank" rel="noopener noreferrer">http://localhost:5678/</a> - should open pretty web app UI
         - Proceed with sample user creation (email, name, surname, password) - one time thing
         - Optional: try creating simple chatbot workflow from example, connect ollama model, try chatting via chat interface, should work fine.
-- Configure and test `sft-admission-automation-llm` sample project
-    - Open project directory (`cd sft-admission-automation-llm`)
+- Configure and test `sft-admission-automation-llm` and `literature-critic-llm` sample project
+    - Open project directory (`cd <directory>`)
     - Run `npm install` to pull dependencies.
-    - Run `npm run start` to test the script - it should work fine together with ollama and gemma3:1b - it should start printing the results in terminal.
+    - Run `npm run start` to test the script - it should work fine together with ollama and gemma3:1b or qwen3:1.7b - it should start printing the results in terminal.
