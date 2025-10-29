@@ -11,7 +11,7 @@
     - Test `ollama`
          - Open <a href="http://localhost:11434/" target="_blank" rel="noopener noreferrer">http://localhost:11434/</a> - should print `Ollama is running`
          - Open <a href="http://localhost:11434/api/tags/" target="_blank" rel="noopener noreferrer">http://localhost:11434/api/tags/</a> - should print `{"models":[]}` - empty array as there are no models yet.
-    - Download some models to `ollama`
+    - Download some models to `ollama` (or at least the following 2 models)
         - Run `docker exec -it ollama ollama run gemma3:1b` (after running the command you should be able to chat via command line)
         - Run `docker exec -it ollama ollama run qwen3:1.7b` (as this one is a bit smarter than gemma3:1b)
         - You can download more models as well. Check available LLMs here: https://ollama.com/library
@@ -44,7 +44,6 @@
     - Test `n8n`
         - Open <a href="http://localhost:5678/" target="_blank" rel="noopener noreferrer">http://localhost:5678/</a> - should open pretty web app UI
         - Proceed with sample user creation (email, name, surname, password) - one time thing
-        - Optional: try creating simple chatbot workflow from example, connect ollama model, try chatting via chat interface, should work fine.
 - Configure and test `sft-admission-automation-llm` and `literature-critic-llm` sample project
     - Open project directory (`cd <directory>`)
     - Run `npm install` to pull dependencies.
