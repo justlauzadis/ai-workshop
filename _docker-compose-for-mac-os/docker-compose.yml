@@ -1,0 +1,56 @@
+services:
+  anythingllm:
+    image: mintplexlabs/anythingllm:latest
+    container_name: anythingllm
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - ai-workshop
+    environment:
+      - STORAGE_DIR=/app/server/storage
+      - OLLAMA_BASE_PATH=http://host.docker.internal:11434
+      - OLLAMA_MODEL_PREF=qwen3:1.7b
+      - OLLAMA_MODEL_TOKEN_LIMIT=30000
+      - LLM_PROVIDER=ollama
+      - VECTOR_DB=lancedb
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - anythingllm_storage:/app/server/storage
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: openwebui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    networks:
+      - ai-workshop
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - WEBUI_AUTH=false
+    volumes:
+      - openwebui_data:/app/backend/data
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    networks:
+      - ai-workshop
+    environment:
+      - GENERIC_TIMEZONE=UTC
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+networks:
+  ai-workshop:
+    driver: bridge
+
+volumes:
+  anythingllm_storage:
+  openwebui_data:
+  n8n_data:

@@ -6,19 +6,27 @@
 - Docker
 - Configure and test the setup from `docker-compose.yml`
     - Clone this repository
-    - Run `docker compose up -d` (in project directory)
-    - Run `docker container ls --all` to check all 4 containers are up and healthy
+    - **Important for Macbook users:** setup part is different on Macbooks (uses local ollama instead of docker container)
+        - **Additional steps for Macbook users:**
+        - Install ollama locally: `brew install ollama`
+        - Start ollama: `ollama serve`
+        - Run (and download) models: `ollama run gemma3:1b`
+        - And another one: `ollama run qwen3:1.7b`
+    - Change directory to a respective directory with docker compose file
+        - MacOS: `cd _docker-compose-for-mac-os`
+        - Windows: `cd _docker-compose-for-win`
+    - Run `docker compose up -d`
+    - Run `docker container ls --all` to check all containers are up and healthy (on Macbook, should list 3 containers, on Windows - 4)
     - Test `ollama`
          - Open <a href="http://localhost:11434/" target="_blank" rel="noopener noreferrer">http://localhost:11434/</a> - should print `Ollama is running`
-         - Open <a href="http://localhost:11434/api/tags/" target="_blank" rel="noopener noreferrer">http://localhost:11434/api/tags/</a> - should print `{"models":[]}` - empty array as there are no models yet.
-    - Download some models to `ollama` (or at least the following 2 models)
+    - **On Windows:** Download some models to `ollama` container (or at least the following 2 models)
         - Run `docker exec -it ollama ollama run gemma3:1b` (after running the command you should be able to chat via command line)
         - Run `docker exec -it ollama ollama run qwen3:1.7b` (as this one is a bit smarter than gemma3:1b)
             - In case of `tls: failed to verify certificate: x509: certificate signed by unknown authority` - enable VPN.
         - You can download more models as well. Check available LLMs here: https://ollama.com/library
         - Recommended small (~2GB) LLMs (as of November, 2025): gemma3, qwen3, phi4-mini-reasoning, granite4.
         - After installation, you can check if the model is available via API - http://localhost:11434/api/tags (should contain info about model within JSON body).
-    - Test `ollama` LLM via REST API - should be working fine:
+    - Test `ollama` LLM via REST API - should be working fine (on both Windows and MacOS):
         ```
         POST /api/generate HTTP/1.1
         Host: localhost:11434
